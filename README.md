@@ -6,7 +6,15 @@ Used Celery for non blocking Email verification
 ## 🚀 Base URL
 ```
 http://127.0.0.1:8000/
+
 ```
+## How to run
+ 
+```
+fastapi dev main.py     
+celery -A utils.celery_worker.celery_app worker --loglevel=info --pool=solo
+```
+
 
 ## 🔐 Authentication
 
