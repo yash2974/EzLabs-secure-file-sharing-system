@@ -2,7 +2,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os
-from Celery.celery_worker import celery_app
+from utils.celery_worker import celery_app
 from dotenv import load_dotenv
 load_dotenv()
 

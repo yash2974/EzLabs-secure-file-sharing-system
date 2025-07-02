@@ -6,4 +6,4 @@ celery_app = Celery(
     backend="redis://localhost:6379/0",
 )
 
-import utils.email_utils as email_utils
+from utils import email_utils 
