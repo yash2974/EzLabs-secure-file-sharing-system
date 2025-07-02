@@ -1,6 +1,7 @@
 # 📁 Secure File Sharing System
 
 This is a backend API for securely uploading, listing, and downloading files with user authentication and role-based access.
+Used Celery for non blocking Email verification
 
 ## 🚀 Base URL
 ```
