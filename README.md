@@ -15,6 +15,19 @@ fastapi dev main.py
 celery -A utils.celery_worker.celery_app worker --loglevel=info --pool=solo
 ```
 
+## 📤 Database Schema
+
+```
+CREATE TABLE users (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  email VARCHAR(255) UNIQUE NOT NULL,
+  hashed_password TEXT NOT NULL,
+  role VARCHAR(10) NOT NULL CHECK (role IN ('ops', 'client')),
+  is_verified BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
 
 ## 🔐 Authentication
 
