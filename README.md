@@ -8,7 +8,7 @@ Used Celery for non blocking Email verification
 http://127.0.0.1:8000/
 
 ```
-## How to run
+## 🚀 How to run
  
 ```
 fastapi dev main.py     
