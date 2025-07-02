@@ -23,6 +23,10 @@ def get_db():
     finally:
         db.close()
 
+@app.get("/")
+def secure_file_sharing_system():
+    return {"message": "Secure File Sharing System!"}
+
 @app.post("/signup", response_model=SignUpResponse)
 def signup(user: UserCreate, db: Session = Depends(get_db)):
     # Check if user exists
