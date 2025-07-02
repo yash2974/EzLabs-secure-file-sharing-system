@@ -1,0 +1,285 @@
+{
+	"info": {
+		"_postman_id": "0fb7b34a-46c0-4f96-bce9-bc60d75307c4",
+		"name": "📁 Secure File Sharing API Documentation",
+		"description": "Base URL: `http://127.0.0.1:8000/`\n\n## 🔐 Authentication\n\n- **Token Type**: Bearer Token\n    \n- **How to Get**: Use the `/login` endpoint to retrieve `access_token`.\n    \n\n---\n\n## 1\\. 📝 Sign Up\n\n**Endpoint:** `POST /signup`  \n**Auth:** ❌ Not required  \n**Body (JSON):**\n\n```\n{\n  \"email\": \"example@mail.com\",\n  \"password\": \"yourpassword\",\n  \"role\": \"ops\"  // or \"client\"\n}\n\n ```\n\n**Response:** Returns user creation confirmation or error.\n\n---\n\n## 2\\. 🔑 Log In\n\n**Endpoint:** `POST /login`  \n**Auth:** ❌ Not required  \n**Body (JSON):**\n\n```\n{\n  \"email\": \"example@mail.com\",\n  \"password\": \"yourpassword\"\n}\n\n ```\n\n**Response:**\n\n```\n{\n  \"access_token\": \"your-jwt-token\"\n}\n\n ```\n\nUse this token in subsequent requests as `Bearer Token`.\n\n---\n\n## 3\\. 📤 Upload File\n\n**Endpoint:** `POST /upload`  \n**Auth:** ✅ Required  \n**Form-Data:**\n\n- `file`: Upload `.pptx`, `.docx`, or `.xlsx` file only\n    \n\n**Response:** Confirmation message or validation error.\n\n---\n\n## 4\\. 📃 List Files\n\n**Endpoint:** `GET /list_files`  \n**Auth:** ✅ Required  \n**Response:** List of available files for the authenticated user.\n\n---\n\n## 5\\. 🔗 Request Secure Download Link\n\n**Endpoint:** `GET /download/{filename}`  \n**Auth:** ✅ Required  \n**Example:**  \n`GET /download/data-1749407797375.xlsx`\n\n**Response:**\n\n```\n{\n  \"message\": \"success\",\n  \"download-link\": \"http://127.0.0.1:8000/download_secure/<token>\"\n}\n\n ```\n\nThe link is encrypted and time-limited.\n\n---\n\n## 6\\. ⬇️ Secure File Download\n\n**Endpoint:** `GET /download_secure/{token}`  \n**Auth:** ✅ Required  \n**Description:** Downloads the file securely using encrypted URL.\n\n---\n\n## 🌐 Environment Variables Used in Postman\n\n- `{{access_token}}`: Set after login\n    \n- `{{secure_encrypted_token}}`: Set after download link request\n    \n\nEndFragment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32611461"
+	},
+	"item": [
+		{
+			"name": "SignUp",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"yashbisht200421@gmail.com\",\r\n    \"password\": \"password1234\",\r\n    \"role\": \"ops\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/signup",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LogIn",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const data = pm.response.json();\r",
+							"if (data.access_token) {\r",
+							"    pm.collectionVariables.set(\"access_token\", data.access_token);\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"yashbisht200421@gmail.com\",\r\n    \"password\": \"password1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/login",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UploadFiles",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/yashb/Downloads/data-1749407797375.xlsx"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/upload",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListFiles",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/list_files",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"list_files"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DownloadFiles",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const data = pm.response.json();\r",
+							"if (data[\"download-link\"]) {\r",
+							"    pm.collectionVariables.set(\"secure_encrypted_token\", data[\"download-link\"]);\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/download/data-1749407797375.xlsx",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"download",
+						"data-1749407797375.xlsx"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SecureDownload",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{secure_encrypted_token}}",
+					"host": [
+						"{{secure_encrypted_token}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "secure_encrypted_token",
+			"value": ""
+		}
+	]
+}
