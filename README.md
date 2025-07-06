@@ -1,7 +1,8 @@
 # 📁 Secure File Sharing System
 
 This is a backend API for securely uploading, listing, and downloading files with user authentication and role-based access.
-Used Celery for non blocking Email verification
+Used Celery for non blocking Email verification.
+Create a .env file for Postgresql db and email/google-app-password
 
 ## 🚀 Base URL
 ```
